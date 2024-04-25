@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/user/station_search.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.4/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="icon" href="/static/temp/assets/images/icon.ico"/>
+    <title>Station Search</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #4C2D8B;
+            padding: 20px;
+            text-align: center;
+        }
+        header .logo img {
+			width: 80px;
+            height: 80px;
+        }
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+        nav ul li {
+            display: inline;
+            margin-right: 20px;
+        }
+        h1 {
+            text-align: center;
+        }
+        ul {
+            padding-left: 20px;
+        }
+        ul li {
+            margin-bottom: 10px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .book-now-btn {
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 14px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        .book-now-btn:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <a href="{{ url_for('home') }}" class="logo"> <img src="/static/pic/logo.png" alt="logo"> </a>
+    <nav>
+        <ul>
+            <li><a href="{{ url_for('home') }}">Home</a></li>
+            <!-- <li><a href="{{ url_for('user_find_your_charger') }}">Find your charger</a></li> -->
+            <li><a href="{{ url_for('about') }}">About</a></li>
+            <li><a href="{{ url_for('contact_us') }}">Contact us</a></li>
+        </ul>
+    </nav>
+</header>
+
+<h1>EV Charging Stations Booking</h1>
+<p><strong>You have selected the following options:</strong></p>
+<ul>
+    <li><strong>City:</strong> {{ city }}</li>
+    {% if emergency_port == 'yes' %}
+        <li><strong>Emergency Port:</strong> Yes</li>
+    {% endif %}
+    <!-- <li><strong>Charging Type:</strong> {{ charger_type }}</li> -->
+</ul>
+
+<p>Please select a charging station from the list below:</p>
+<table id="myTable" class="display">
+    <thead>
+        <tr>
+            <th>Station Name</th>
+            <th>City</th>
+            <th>Address</th>
+            <th>Charge Type</th>
+            <th>Emergency Port</th>
+            <th>Available Ports</th>
+			<th>Distance from your position</th>
+            <th style="width: 10%" orderable="false">Book</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for station in data|sort(attribute='distance_to_city') %}
+        <tr>
+            <td>{{ station.station_name }}</td>
+            <td>{{ station.city }}</td>
+            <td>{{ station.address }}</td>
+            <td>{{ station.charger_type }}</td>
+            <td>{{ station.emergency_port }}</td>
+            <td>{{ station.available_ports }}</td>
+			<td>{{ station.distance_to_city }}</td>
+            <!-- <td>
+                <select name="ports">
+                    {% for port in station.available_ports %}
+                    <option value="{{ port }}">{{ port }}</option>
+                    {% endfor %}
+                </select>
+            </td> -->
+            <td>
+                <button class="book-now-btn" data-station="{{ station.station_name }}" data-city="{{ station.city }}" data-available-ports="{{ station.available_ports }}" data-emergency-port="{{ station.emergency_port }}">Book Now</button>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
+<script>
+    $(function() {
+        $('.book-now-btn').on('click', function() {
+            var stationName = $(this).data('station');
+            var city = $(this).data('city');
+            var availablePorts = $(this).data('available-ports');
+            var emergencyPort = $(this).data('emergency-port');
+
+            $.ajax({
+                url: '/booking',
+                method: 'POST',
+                data: { 
+                    station_name: stationName,
+                    city: city,
+                    available_ports: availablePorts,
+                    emergency_port: emergencyPort
+                },
+                success: function(response) {
+                    window.location.href = '/booking?station_name=' + stationName + '&city=' + city + '&available_ports=' + availablePorts + '&emergency_port=' + emergencyPort ;
+                },
+                error: function(error) {
+                    console.log("There was an error in ajax: " + error);
+                }
+            });
+        });
+        $('#myTable').DataTable({
+            paging: false,
+            searching: false,
+            ordering: false,
+            columnDefs: [{ orderable: false, targets: 4 }]
+        });
+    });
+</script>
+
+</body>
+</html>

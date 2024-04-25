@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/static/user/find-your-charger.css" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.4/css/jquery.dataTables.min.css">
+    <link rel=" icon" href="/static/temp/assets/images/icon.ico"/>
+    <title>find your charger</title>
+  </head>
+
+  <!-- HEADER SECTION -->
+
+  <header>
+    <a href="{{ url_for('home') }}" class="logo"> <img src="/static/pic/logo.png" alt="logo"> </a>
+    <nav>
+      <ul>
+        <li><a href="{{ url_for('home') }}">Home</a></li>
+        <!-- <li><a href="{{ url_for('user_find_your_charger') }}">Find your charger</a></li> -->
+        <li><a href="{{ url_for('about') }}">About</a></li>
+        <li><a href="{{ url_for('contact_us') }}">Contact us</a></li>
+    </ul>
+    </nav>
+    
+    
+</header>
+
+  <main>
+    <!-- BODY SECTION -->
+
+    <div class="container">
+      
+      <h1>Find Your Charge Point</h1>
+      <form action="{{ url_for('search_stations') }}" method="post">
+        <label for="city">Select Your Position: </label>
+        <input type="text" id="city" name="city">
+        <style>
+          input[type="text"] {
+  width: 200px;
+  height: 40px;
+  padding: 20px;
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  box-sizing: border-box;
+  transition: border-color 0.3s ease;
+}
+        </style>
+        <!-- <select id="city" name="city" required>
+          <option value="">--Select starting position--</option>
+          <option value="thiruvananthapuram">Thiruvananthapuram</option>
+          <option value="Kollam">Kollam</option>
+          <option value="Pathanamthitta">Pathanamthitta</option>
+          <option value="Alapuzha">Alapuzha</option>
+          <option value="Kottayam">Kottayam</option>
+          <option value="Idukki">Idukki</option>
+          <option value="Ernakulam">Ernakulam</option>
+          <option value="Thrissur">Thrissur</option>
+          <option value="Palakkad">Palakkad</option>
+          <option value="Malappuram">Malappuram</option>
+          <option value="Kozhikode">Kozhikode</option>
+          <option value="Wayanad">Wayanad</option>
+          <option value="kannur">Kannur</option>
+          <option value="Kasaragod">Kasaragod</option>
+        </select> -->
+        <br />
+        <br>
+        <!-- <label for="charger_type">Select Charging Type:</label>
+        <select name="charger_type" id="charger_type" required>
+          <option value="">--Select--</option>
+          <option value="AC Level 1 Charging">AC Level 1 Charging</option>
+          <option value="AC Level 2 Charging">AC Level 2 Charging</option>
+          <option value="DC Fast Charging">DC Fast Charging</option>
+        </select>
+        <br /> -->
+        <label for="charger_type">Want Emergency port:</label>
+        <select name="emergency_port" id="emergency_port">
+          <option value="">--Select--</option>
+          <option value="yes">yes</option>
+        </select>
+        <br />
+        <button id="book" type="submit"> Search  </button>
+      </form>
+  </main>
+
+  <!-- FOOTER SECTION -->
+
+  <footer>
+    <div class="footer-content">
+      <h3>footer</h3>
+      <!-- <p>&copy; 2023 EV Charging Station Finder. All rights reserved.</p> -->
+    </div>
+  </footer>
+
+
+  <style>
+    /* Global styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Header styles */
+header {
+    background-color: #4C2D8B;
+    color: #fff;
+    padding: 10px 20px;
+}
+
+.logo img {
+    height: 80px;
+    width: 80px;
+}
+
+nav ul {
+    list-style-type: none;
+}
+
+nav ul li {
+    display: inline;
+    margin-right: 20px;
+}
+
+nav ul li a {
+    color: #fff;
+    text-decoration: none;
+}
+
+/* Main content styles */
+main {
+    text-align: center;
+}
+
+h1 {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+input[type="text"],
+select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+button[type="submit"] {
+    padding: 10px 20px;
+    background-color: #343a40;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button[type="submit"]:hover {
+    background-color: #555;
+}
+
+/* Footer styles */
+footer {
+    background-color: #4C2D8B;
+    color: #fff;
+    text-align: center;
+    padding: 20px 0;
+}
+
+  </style>
+
+
+</html>
