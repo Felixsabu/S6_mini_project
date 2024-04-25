@@ -318,11 +318,18 @@ def usr_delete_booking(booking_date):
     if 'user_type' in session and session['user_type'] == "user":
         username = session['username'] # get the username from the session
         db = Db()
+
+        # Retrieve the updated bookings
+        bookings = db.select("SELECT station_name FROM bookings WHERE login_id = %s ORDER BY booking_date DESC", (session['uid'],))
+        print(bookings[0]['station_name'])
+        station_name=bookings[0]['station_name']
+        db.update("update admin_charging_station_list set available_ports=available_ports+1 where station_name=%s",(station_name,))    
         
         # Delete the booking from the table
         qry = db.delete("delete from bookings WHERE booking_date = %s", (booking_date,))
-         # Retrieve the updated bookings
-        bookings = db.select("SELECT booking_id, booking_date, time_from, time_to, city, station_name, available_ports, login_id FROM bookings WHERE login_id = %s ORDER BY booking_date DESC", (session['uid'],))
+         
+        
+        
         return '''<script>alert('booking deleted');window.location="/user-dashboard"</script>'''
     else:
          return redirect('/user-dashboard')
