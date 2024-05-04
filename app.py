@@ -570,7 +570,16 @@ def station_dashboard():
     print('session ', session)
     if session['user_type'] == 'station':
         username = session['username'] # get the username from the session
-        return render_template('admin_station/admin-login-dashboard1.html', username=username)
+        db=Db()
+        qry=db.select("select * from bookings INNER JOIN login ON bookings.login_id = login.login_id where station_name=%s",(username,))
+        qry1=db.select("select login_id from bookings where station_name=%s",(username,))
+        login_id=qry1[0]['login_id']
+        print(login_id)
+        
+        qry3=db.select("select username from login where login_id=%s",(login_id,))
+        user=qry3[0]['username']
+        print(user)
+        return render_template('admin_station/admin-login-dashboard1.html', username=username,data=qry,user=user)
     #else:
        # return redirect('/')
 
