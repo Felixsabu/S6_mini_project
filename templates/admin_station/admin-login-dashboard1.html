@@ -100,10 +100,7 @@
             <th>booking Date</th>
             <th>Time from</th>
             <th>Time to</th>
-            <!-- <th>city</th> -->
             <th>Name</th>
-            <!-- <th>slot</th> -->
-            <!-- <th>Navigate</th> -->
             <th>Action</th>
           </tr>
         </thead>
@@ -113,11 +110,8 @@
     <td>{{ booking.booking_date }}</td>
     <td>{{ booking.time_from }}</td>
     <td>{{ booking.time_to }}</td>
-    <!-- <td>{{ booking.city }}</td> -->
     <td>{{ booking.username }}</td>
-    <!-- <td>{{ booking.available_ports }}</td> -->
-    <!-- <td><p><a href="/navigate_to_maps/{{ booking.station_name }}" class="btn btn-dark">Navigate</a></p></td> -->
-    <td><p><a href="/usr_delete_booking/{{ booking.booking_date }}" class="btn btn-dark">Remove booking</a></p></td>
+    <td><p><a href="/stn_delete_booking/{{ booking.booking_date }}" class="btn btn-dark">Remove booking</a></p></td>
   </tr>
 {% endfor %}
 </tbody>

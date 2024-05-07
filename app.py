@@ -294,6 +294,8 @@ def adm_delete_booking(booking_id):
         return '''<script>alert('booking deleted');window.location="/view_booking"</script>'''
     else:
         return redirect('/')
+    
+    
 
 
 
@@ -448,6 +450,23 @@ def station_search():
         return render_template('user/station_search.html', data=nearby_stations_sorted, city=city, charger_type=charger_type, emergency_port=emergency_port)
     else:
         return redirect('/')
+    
+@app.route('/stn_delete_booking/<booking_date>')
+def stn_delete_booking(booking_date):
+    if 'user_type' in session and session['user_type'] == "station":
+        username = session['username'] # get the username from the session
+        db = Db()
+        
+        db.update("update admin_charging_station_list set available_ports=available_ports+1 where station_name=%s",(username,))    
+        
+        # Delete the booking from the table
+        qry = db.delete("delete from bookings WHERE booking_date = %s", (booking_date,))
+         
+        
+        
+        return '''<script>alert('booking deleted');window.location="/station-dashboard"</script>'''
+    else:
+         return redirect('/station-dashboard')    
 
 # ==============from station_search to booking page====================
 @app.route('/booking', methods=['GET', 'POST'])
