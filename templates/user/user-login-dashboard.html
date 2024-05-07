@@ -99,7 +99,7 @@
             <th>city</th>
             <th>station</th>
             <!-- <th>slot</th> -->
-            <!-- <th>Navigate</th> -->
+            <th>Navigate</th>
             <th>Action</th>
           </tr>
         </thead>
@@ -112,7 +112,7 @@
     <td>{{ booking.city }}</td>
     <td>{{ booking.station_name }}</td>
     <!-- <td>{{ booking.available_ports }}</td> -->
-    <!-- <td><p><a href="/navigate_to_maps/{{ booking.station_name }}" class="btn btn-dark">Navigate</a></p></td> -->
+    <td><p><a href="/navigate_to_maps/{{ booking.station_name }}" class="btn btn-dark">Navigate</a></p></td>
     <td><p><a href="/usr_delete_booking/{{ booking.booking_date }}" class="btn btn-dark">cancel booking</a></p></td>
   </tr>
 {% endfor %}
